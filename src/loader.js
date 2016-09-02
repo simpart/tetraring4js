@@ -55,7 +55,6 @@ $(function() {
                 throw new Error(e.stack);
             }
         }
-        
         /* set css loader */
         /**
          * load css
@@ -83,7 +82,7 @@ $(function() {
          * @param h_id : (string) insert the destination 'id' attribute of html tag
          * @param func : (object) callback function
          */
-        tetraring.loader.html = function(h_path, h_id, func) {
+        tetraring.loader.html = function(h_path, h_id, func, prm) {
             try {
                 $.ajax({
                     url      : h_path ,
@@ -93,9 +92,9 @@ $(function() {
                     async    : false
                 })
                 .done(function(jqXHR, textStatus, errorThrown) {
-                    $( '#' + h_id ).html( jqXHR );
+                    $( '#' + h_id ).html(jqXHR);
                     if( null != func ) {
-                        func( jqXHR );
+                        func(jqXHR, prm);
                     }
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
@@ -127,7 +126,7 @@ $(function() {
                     // js load
                     tetraring.loader.jsPathList.push( paths[p_idx] );
                     var cnt_idx = idx;
-                    $.getScript( paths[p_idx] ,
+                    $.getScript(paths[p_idx] ,
                         function(src,sts,obj) {
                             try {
                                 tetraring.loader.jsCnt[cnt_idx]--;

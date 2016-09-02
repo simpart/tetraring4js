@@ -1,11 +1,13 @@
-var Gtrg_baseurl = '';
 
 try {
     if (typeof tetraring === "undefined"){
-        var tetraring = {};
-        $.getScript(Gtrg_baseurl+'/src/loader.js', function(){
+        var tetraring  = {};
+        tetraring.conf = {};
+        tetraring.conf.baseUrl = '';
+        tetraring.conf.loaded  = false;
+        $.getScript(tetraring.conf.baseUrl + '/src/loader.js', function() {
             try {
-                
+                tetraring.conf.loaded = true;
             } catch (e) {
                 console.error(e.stack);
             }
