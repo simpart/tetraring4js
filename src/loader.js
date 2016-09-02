@@ -4,56 +4,62 @@
  * @author simpart
  * @note   MIT license
  */
-
-/*** Global ***/
-var Gcom_loadJscnt    = new Array( 7 );
-var Gcom_loadList     = new Array();
-var Gcom_loadPathList = new Array();
-var Gcom_loadChkr     = null;
-
 /*** initial ***/
 $(function() {
-  var loop = 0;
-  for( loop=0 ; loop < Gcom_loadJscnt.length ; loop++ ) {
-    Gcom_loadJscnt[loop] = 0;
-  }
+    try {
+        tetraring.loader = {};
+        tetraring.loader.jsCnt      = new Array(7);
+        tetraring.loader.jsList     = new Array();
+        tetraring.loader.jsPathList = new Array();
+        tetraring.loader.jsCheker   = null;
+        tetraring.loader.private    = {};
+        
+        var loop = 0;
+        for(loop=0; loop < tetraring.loader.jsCnt.length ; loop++) {
+            tetraring.loader.jsCnt[loop] = 0;
+        }
+        
+        /* set javascript loader */
+        /**
+         * parallel javascript loader
+         * 
+         * @param paths : (array) target javascript file paths
+         * @param func : (object) callback function
+         * @param prm : (mixed) paramter of callback function
+         */
+        tetraring.loader.js = function(paths, func, prm) {
+            try {
+                if( (null == paths) || (paths.length == 0) ) {
+                    throw new Error('invalid parameter');
+                }
+                var pval = prm || null;
+                
+                if (0 === tetraring.loader.jsCnt[0]) {
+                    Fcom_loadJsElem(0, paths, func, pval);
+                } else if(0 === tetraring.loader.jsCnt[1]) {
+                    Fcom_loadJsElem(1, paths, func, pval);
+                } else if(0 === tetraring.loader.jsCnt[2]) {
+                    Fcom_loadJsElem(2, paths, func, pval);
+                } else if(0 === tetraring.loader.jsCnt[3]) {
+                    Fcom_loadJsElem(3, paths, func, pval);
+                } else if(0 === tetraring.loader.jsCnt[4]) {
+                    Fcom_loadJsElem(4, paths, func, pval);
+                } else if(0 === tetraring.loader.jsCnt[5]) {
+                    Fcom_loadJsElem(5, paths, func, pval);
+                } else if(0 === tetraring.loader.jsCnt[6]) {
+                    Fcom_loadJsElem(6, paths, func, pval);
+                } else {
+                    throw new Error('burst js loading stack.');
+                }
+            } catch (e) {
+                throw new Error(e.stack);
+            }
+        }
+        
+    } catch (e) {
+        console.error(e.stack);
+    }
 });
-
-/*** function ***/
-/**
- * @briad parallel javascript loader
- * @param[in] paths : target javascript file paths
- * @param[in] func : function call after loaded
- */
-function Fcom_loadJs( paths , func , prm ) {
-  try {
-    /* param check */
-    if( (null == paths) || (paths.length == 0) ) {
-      return true;
-    }
-    var pval = prm || null;
-    
-    if ( 0 == Gcom_loadJscnt[0] ) {
-      Fcom_loadJsElem( 0 , paths , func , pval );
-    } else if( 0 == Gcom_loadJscnt[1] ) {
-      Fcom_loadJsElem( 1 , paths , func , pval );
-    } else if( 0 == Gcom_loadJscnt[2] ) {
-      Fcom_loadJsElem( 2 , paths , func , pval );
-    } else if( 0 == Gcom_loadJscnt[3] ) {
-      Fcom_loadJsElem( 3 , paths , func , pval );
-    } else if( 0 == Gcom_loadJscnt[4] ) {
-      Fcom_loadJsElem( 4 , paths , func , pval );
-    } else if( 0 == Gcom_loadJscnt[5] ) {
-      Fcom_loadJsElem( 5 , paths , func , pval );
-    } else if( 0 == Gcom_loadJscnt[6] ) {
-      Fcom_loadJsElem( 6 , paths , func , pval );
-    } else {
-      throw new Error('burst js loading stack.');
-    }
-  } catch( e ) {
-    throw new Error( e.stack );
-  }
-}
 
 function Fcom_loadJsElem( idx , paths , func , pval ) {
   try {
