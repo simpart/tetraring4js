@@ -80,9 +80,8 @@ $(function() {
          * 
          * @param hpath : (string) path to html file
          * @param h_id : (string) insert the destination 'id' attribute of html tag
-         * @param func : (object) callback function
          */
-        tetraring.loader.html = function(h_path, h_id, func, prm) {
+        tetraring.loader.html = function(h_path, h_id) {
             try {
                 $.ajax({
                     url      : h_path ,
@@ -93,9 +92,6 @@ $(function() {
                 })
                 .done(function(jqXHR, textStatus, errorThrown) {
                     $( '#' + h_id ).html(jqXHR);
-                    if( null != func ) {
-                        func(jqXHR, prm);
-                    }
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     throw new Error();
