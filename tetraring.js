@@ -7,7 +7,12 @@ try {
         tetraring.conf.loaded  = false;
         $.getScript(tetraring.conf.baseUrl + '/src/loader.js', function() {
             try {
-                tetraring.conf.loaded = true;
+                tetraring.loader.js(
+                    [tetraring.conf.baseUrl + '/src/rest.js'],
+                    function(){
+                        tetraring.conf.loaded = true;
+                    },null
+                );
             } catch (e) {
                 console.error(e.stack);
             }

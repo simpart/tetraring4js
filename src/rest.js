@@ -1,34 +1,68 @@
-function Fjsn_sendReq(rtype, uri, data, func, fprm) {
+/**
+ * @file   loader.js
+ * @brief  loader of html,js,css file
+ * @author simpart
+ * @note   MIT license
+ */
+/*** initial ***/
+$(function() {
     try {
-        var func_prm = fprm;
-        $.ajax({
-             url         : uri ,
-             type        : rtype  ,
-             dataType    : 'json' ,
-             data        : data
-        })
-        .done(function(jqXHR, textStatus, errorThrown) {
+        tetraring.rest = {};
+        tetraring.rest.private = {};
+        tetraring.rest.get     = function(uri, data, func, prm) {
             try {
-                if( null != func ) {
-                    if( null == func_prm ) {
-                        func(jqXHR);
-                    } else {
-                        func(jqXHR, func_prm);
-                    }
+                tetraring.rest.private.request(uri, 'GET', data, func, prm);
+            } catch (e) {
+                throw new Error(e.stack + '\n');
+            }
+        }
+        
+        tetraring.rest.post = function(uri, data, func, prm) {
+            try {
+                if (null == data) {
+                    throw new Error('invalid parameter');
                 }
-            } catch( e ) {
-                alert( e.stack );
+                tetraring.rest.private.request(uri, 'POST', data, func, prm);
+            } catch (e) {
+                throw new Error(e.stack + '\n');
             }
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
+        }
+        
+        tetraring.rest.private.request = function(uri, type, data, func, prm) {
             try {
-                alert( "send request is faied" );
-            } catch( e ) {
-                alert( e.stack );
+                $.ajax({
+                    url         : uri    ,
+                    type        : type   ,
+                    dataType    : 'json' ,
+                    data        : data
+                })
+                .done(function(jqXHR, textStatus, errorThrown) {
+                    try {
+                        if( null != func ) {
+                            if( null == func_prm ) {
+                                func(jqXHR);
+                            } else {
+                                func(jqXHR, prm);
+                            }
+                        }
+                    } catch( e ) {
+                        alert( e.stack );
+                    }
+                })
+                .fail(function( jqXHR, textStatus, errorThrown ) {
+                    try {
+                        
+                    } catch( e ) {
+                        console.error(e.stack);
+                    }
+                })
+                .always(function( data, textStatus, errorThrown ) {});
+            } catch (e) {
+                throw new Error(e.stack + '\n');
             }
-        })
-        .always(function( data, textStatus, errorThrown ) {});
-    } catch( e ) {
-         alert( e.stack );
+        }
+    catch (e) {
+        console.error(e.stack);
     }
-}
+});
+/* end of file */
