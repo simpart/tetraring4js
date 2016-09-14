@@ -39,7 +39,7 @@ $(function() {
                 .done(function(jqXHR, textStatus, errorThrown) {
                     try {
                         if( null != func ) {
-                            if( null == func_prm ) {
+                            if( null == prm ) {
                                 func(jqXHR);
                             } else {
                                 func(jqXHR, prm);
@@ -61,7 +61,8 @@ $(function() {
                 throw new Error(e.stack + '\n');
             }
         }
-    catch (e) {
+        tetraring.mng.loadflg.rest = true;
+    } catch (e) {
         console.error(e.stack);
     }
 });

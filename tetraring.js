@@ -1,22 +1,35 @@
 
 try {
     if (typeof tetraring === "undefined"){
-        var tetraring  = {};
-        tetraring.conf = {};
-        tetraring.conf.baseUrl = '';
-        tetraring.conf.loaded  = false;
-        $.getScript(tetraring.conf.baseUrl + '/src/loader.js', function() {
+        var tetraring          = {};
+        tetraring.mng          = {};
+        tetraring.mng.isloaded = false;
+        tetraring.mng.loadflg  = {
+            'loader' : false,
+            'rest'   : false
+        }
+        tetraring.mng.chkLoad  = function() {
             try {
-                tetraring.loader.js(
-                    [tetraring.conf.baseUrl + '/src/rest.js'],
-                    function(){
-                        tetraring.conf.loaded = true;
-                    },null
-                );
+                for (var key in tetraring.mng.loadflg) {
+                    if(false === tetraring.mng.loadflg[key]) {
+                        setTimeout(tetraring.mng.chkLoad,100);
+                        return;
+                    }
+                }
+                tetraring.mng.isloaded = true;
             } catch (e) {
                 console.error(e.stack);
             }
-        });
+        }
+        tetraring.conf         = {
+            'baseurl' : ''
+        };
+        
+        /* initialize */
+        $.getScript(tetraring.conf.baseurl + '/src/loader.js');
+        $.getScript(tetraring.conf.baseurl + '/src/rest.js');
+        
+        tetraring.mng.chkLoad();
     } else {
         throw new Error('tetraring is already defined');
     }

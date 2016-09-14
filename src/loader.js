@@ -159,6 +159,7 @@ $(function() {
                 throw new Error(e.stack);
             }
         }
+        tetraring.mng.loadflg.loader = true;
     } catch (e) {
         console.error(e.stack);
     }
