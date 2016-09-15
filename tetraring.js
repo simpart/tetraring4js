@@ -22,7 +22,7 @@ try {
             }
         }
         tetraring.conf         = {
-            'baseurl' : ''
+            'baseurl' : './src/js/lib/tetraring4js'
         };
         
         /* initialize */
