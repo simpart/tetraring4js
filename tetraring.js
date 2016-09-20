@@ -6,7 +6,8 @@ try {
         tetraring.mng.isloaded = false;
         tetraring.mng.loadflg  = {
             'loader' : false,
-            'rest'   : false
+            'rest'   : false,
+            'debug'  : false
         }
         tetraring.mng.chkLoad  = function() {
             try {
@@ -28,6 +29,7 @@ try {
         /* initialize */
         $.getScript(tetraring.conf.baseurl + '/src/loader.js');
         $.getScript(tetraring.conf.baseurl + '/src/rest.js');
+        $.getScript(tetraring.conf.baseurl + '/src/debug.js');
         
         tetraring.mng.chkLoad();
     } else {
