@@ -1,3 +1,4 @@
 loader : true
 rest   : true
 debug  : true
+time   : true
