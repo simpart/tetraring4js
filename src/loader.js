@@ -1,60 +1,175 @@
-/**
- * @file   loader.js
- * @brief  loader of html,js,css file
- * @author simpart
- * @note   MIT license
- */
-/*** initial ***/
-$(function() {
-    try {
-        tetraring.loader = {};
-        tetraring.loader.jsCnt      = new Array(7);
-        tetraring.loader.jsList     = new Array();
-        tetraring.loader.jsPathList = new Array();
-        tetraring.loader.jsCheker   = null;
-        tetraring.loader.private    = {};
+        tetraring.loader    = {};
+        tetraring.base_path = "./";
+        tetraring.loader.JsLoader = class {
+            /**
+             * initialize js loader
+             *
+             * @param bp : (string) base path
+             */
+            constructor (bp) {
+                try {
+                    var p_bp = bp || './';
+                    this.base_path = p_bp;
+                    this.load_path = new Array();
+                    this.callback  = null;
+                    this.load_cnt  = 0;
+                    this.loading   = false;
+                    this.timeout   = 0;
+                } catch (e) {
+                    throw new Error(e.stack + '\n');
+                }
+            }
+            
+            addPath (path) {
+                try {
+                    if ('string' != (typeof path)) {
+                        throw new Error('invalid parameter');
+                    }
+                    if (true === this.loading) {
+                        throw new Error('Loader is busy');
+                    }
+                    /* check duplex */
+                    for (var load_path_idx in this.load_path) {
+                        if (path == this.load_path[load_path_idx][0]) {
+                            /* already  added */
+                            return;
+                        }
+                    }
+                    /* add load target path */
+                    this.load_path.push(new Array(path, false));
+                } catch (e) {
+                    throw new Error(e.stack + '\n');
+                }
+            }
+            
+            setCallback (func, prm) {
+                try {
+                    var p_prm = prm || null;
+                    if (null === func) {
+                        throw new Error('invalid param');
+                    }
+                    this.callback = new Array(func, p_prm);
+                } catch (e) {
+                    throw new Error(e.stack + '\n');
+                }
+            }
+            
+            load (force) {
+                try {
+                    if (true === this.loading) {
+                        throw new Error('Loader is busy');
+                    }
+                    this.loading = true;
+                    
+                    var p_force = force || false;
+                    for (var load_path_idx in this.load_path) {
+                        /* check loaded */
+                        if (true === this.load_path[load_path_idx][1]) {
+                            /* already loaded */
+                            if (false === p_force) {
+                                /* skip load */
+                                continue;
+                            }
+                        }
+                        
+                        /* load javascript */
+                        var own_loader = this;
+                        $.getScript(
+                            this.base_path + this.load_path[load_path_idx][0],
+                            function() {
+                                try {
+                                    own_loader.loadedElem();
+                                } catch (e) {
+                                    console.error(e.stack);
+                                }
+                            }
+                        );
+                    }
+                    
+                    /* check load finish */
+                    /* set load timeout */
+                    if (0 === this.timeout) {
+                        this.timeout = this.load_path.length * 200;
+                    }
+                    setTimeout(
+                        function() {
+                            try {
+                                own_loader.chkLoad();
+                            } catch (e) {
+                                console.error(e.stack);
+                            }
+                        },
+                        this.timeout
+                    );
+                } catch (e) {
+                    throw new Error(e.stack + '\n');
+                }
+            }
+            
+            loadedElem () {
+                try {
+                    this.load_cnt++;
+                    if (this.load_cnt === this.load_path.length) {
+                        /* finished load */
+                        /* update loaded flag */
+                        for (var load_path_idx in this.load_path) {
+                            this.load_path[load_path_idx][1] = true;
+                        }
+                        /* check callback function */
+                        if (null !== this.callback) {
+                            this.callback[0](this.callback[1]);
+                        }
+                        this.loading = false;
+                    }
+                } catch (e) {
+                    throw new Error(e.stack + '\n');
+                }
+            }
+            
+            chkLoad() {
+                try {
+                    for (var load_path_idx in this.load_path) {
+                        if (false === this.load_path[load_path_idx][1]) {
+                            throw new Error('timeout load js : ' + this.base_path + this.load_path[load_path_idx][0]);
+                        }
+                    }
+                } catch (e) {
+                    throw new Error(e.stack + '\n');
+                }
+            }
+        };
         
-        var loop = 0;
-        for(loop=0; loop < tetraring.loader.jsCnt.length ; loop++) {
-            tetraring.loader.jsCnt[loop] = 0;
-        }
-        
-        /* set javascript loader */
-        /**
-         * parallel javascript loader
-         * 
-         * @param paths : (array) target javascript file paths
-         * @param func : (object) callback function
-         * @param prm : (mixed) paramter of callback function
-         */
-        tetraring.loader.js = function(paths, func, prm) {
+        tetraring.loader.jsSerial = function (path, idx) {
             try {
-                if( (null == paths) || (paths.length == 0) ) {
-                    throw new Error('invalid parameter');
+                var p_idx = idx || 0;
+                if ((null === path) || (0 === path.length)) {
+                    throw new Error('invalid paramter');
                 }
-                var pval = prm || null;
-                
-                if (0 === tetraring.loader.jsCnt[0]) {
-                    tetraring.loader.private.jsElem(0, paths, func, pval);
-                } else if(0 === tetraring.loader.jsCnt[1]) {
-                    tetraring.loader.private.jsElem(1, paths, func, pval);
-                } else if(0 === tetraring.loader.jsCnt[2]) {
-                    tetraring.loader.private.jsElem(2, paths, func, pval);
-                } else if(0 === tetraring.loader.jsCnt[3]) {
-                    tetraring.loader.private.jsElem(3, paths, func, pval);
-                } else if(0 === tetraring.loader.jsCnt[4]) {
-                    tetraring.loader.private.jsElem(4, paths, func, pval);
-                } else if(0 === tetraring.loader.jsCnt[5]) {
-                    tetraring.loader.private.jsElem(5, paths, func, pval);
-                } else if(0 === tetraring.loader.jsCnt[6]) {
-                    tetraring.loader.private.jsElem(6, paths, func, pval);
-                } else {
-                    throw new Error('burst js loading stack.');
-                }
+                $.ajax({
+                    url      : path[p_idx] ,
+                    type     : 'GET'       ,
+                    cache    : false       ,
+                    dataType : 'script'    ,
+                    async    : false
+                })
+                .done(function(jqXHR, textStatus, errorThrown) {
+                    try {
+                        if (p_idx < path.length-1) {
+                            tetraring.loader.jsSerial(path, p_idx+1);
+                        }
+                    } catch (e) {
+                        console.error(e.stack);
+                    }
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                    throw new Error(textStatus);
+                })
+                .always(function(data, textStatus, errorThrown) {});
             } catch (e) {
                 throw new Error(e.stack);
             }
-        }
+        };
+        
         /* set css loader */
         /**
          * load css
@@ -73,7 +188,7 @@ $(function() {
             } catch (e) {
                 throw new Error(e.stack);
             }
-        }
+        };
         
         /**
          * brief load html
@@ -100,68 +215,4 @@ $(function() {
             } catch (e) {
                 throw new Error(e.stack);
             }
-        }
-        
-        /* set loader private function */
-        tetraring.loader.private.jsElem = function(idx, paths, func, pval) {
-            try {
-                tetraring.loader.jsCnt[idx] = paths.length;
-                var chk_flg = false;
-                for(var p_idx in paths) {
-                    chk_flg = false;
-                    for(var c_idx in tetraring.loader.jsPathList) {
-                        if(paths[p_idx] == tetraring.loader.jsPathList[c_idx]) {
-                            chk_flg = true;
-                            break;
-                        }
-                    }
-                    if(true == chk_flg) {
-                        tetraring.loader.jsCnt[idx]--;
-                        continue;  // already loaded , next js
-                    }
-                    // js load
-                    tetraring.loader.jsPathList.push( paths[p_idx] );
-                    var cnt_idx = idx;
-                    $.getScript(paths[p_idx] ,
-                        function(src,sts,obj) {
-                            try {
-                                tetraring.loader.jsCnt[cnt_idx]--;
-                            } catch( e ) {alert( e.stack );}
-                        }
-                    );
-                }
-                tetraring.loader.private.waitJs(idx, func, pval);
-            } catch (e) {
-                throw new Error(e.stack);
-            }
         };
-        
-        tetraring.loader.private.waitJs = function(idx, func, pval) {
-            try {
-                if( 0 == tetraring.loader.jsCnt[idx] ) {
-                    if( null != func ) {
-                        if ( null == pval ) {
-                            func();
-                        } else {
-                            func(pval);
-                        }
-                    }
-                    return;
-                } else {}
-                setTimeout(function (p1, p2, p3) {
-                    try {
-                        tetraring.loader.private.waitJs(p1, p2, p3);
-                    } catch (e) {
-                        console.error(e.stack);
-                    }
-                }, 200, idx, func, pval);
-            } catch (e) {
-                throw new Error(e.stack);
-            }
-        }
-        tetraring.mng.loadflg.loader = true;
-    } catch (e) {
-        console.error(e.stack);
-    }
-});
-/* end of file */

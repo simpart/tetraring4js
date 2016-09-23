@@ -1,12 +1,3 @@
-/**
- * @file   loader.js
- * @brief  loader of html,js,css file
- * @author simpart
- * @note   MIT license
- */
-/*** initial ***/
-$(function() {
-    try {
         tetraring.rest = {};
         tetraring.rest.private = {};
         tetraring.rest.get     = function(uri, data, func, prm) {
@@ -61,9 +52,3 @@ $(function() {
                 throw new Error(e.stack + '\n');
             }
         }
-        tetraring.mng.loadflg.rest = true;
-    } catch (e) {
-        console.error(e.stack);
-    }
-});
-/* end of file */

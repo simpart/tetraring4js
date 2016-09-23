@@ -7,42 +7,17 @@
 /*** initial ***/
 $(function() {
     try {
-        tetraring.JsLoader = class {
-            constructor () {
-                try {
-                    this.paths   = new Array();
-                    this.cb_func = null;
-                    this.cb_prm  = null;
-                } catch (e) {
-                    throw new Error(e.stack + '\n');
-                }
-            }
-            
-            addPath (path) {
-                try {
-                    if ('string' != (typeof path)) {
-                        throw new Error('invalid parameter');
-                    }
-                    this.paths.push(path);
-                } catch (e) {
-                    throw new Error(e.stack + '\n');
-                }
-            }
-            
-            setCallback (func, prm) {
-                try {
-                    var p_prm = prm || null;
-                    if (null === func) {
-                        throw new Error('invalid param');
-                    }
-                    this.cb_func = func;
-                    this.cb_prm  = p_prm;
-                } catch (e) {
-                    throw new Error(e.stack + '\n');
-                }
-            }
-        };
+        tetraring.loader = {};
+        tetraring.loader.jsCnt      = new Array(7);
+        tetraring.loader.jsList     = new Array();
+        tetraring.loader.jsPathList = new Array();
+        tetraring.loader.jsCheker   = null;
         tetraring.loader.private    = {};
+        
+        var loop = 0;
+        for(loop=0; loop < tetraring.loader.jsCnt.length ; loop++) {
+            tetraring.loader.jsCnt[loop] = 0;
+        }
         
         /* set javascript loader */
         /**

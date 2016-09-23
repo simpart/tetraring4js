@@ -1,6 +1,3 @@
-
-$(function() {
-    try {
         tetraring.debug = {};
         tetraring.debug.dumpObj = function(obj) {
             try {
@@ -13,9 +10,3 @@ $(function() {
                 throw new Error(e.stack);
             }
         }
-        tetraring.mng.loadflg.debug = true;
-    } catch (e) {
-        console.error(e.stack);
-    }
-});
-/* end of file */
