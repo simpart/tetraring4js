@@ -55,7 +55,7 @@ try {
             //    }
             //}
             
-            load (cb_func, force) {
+            load (cb_func, cb_prm, force) {
                 try {
                     /* check busy */
                     if (true === this.loading) {
@@ -64,9 +64,9 @@ try {
                     this.loading = true;
                     
                     /* set callback function */
-                    var _cb_func = cb_func || null;
                     if (null !== _cb_func) {
-                        this.callback = _cb_func;
+                        this.callback[0] = cb_func;
+                        this.callback[1] = cb_prm;
                     }
                     var p_force  = force   || false;
                     
@@ -126,7 +126,8 @@ try {
                         /* check callback function */
                         if (null !== this.callback) {
                             this.callback[0](this.callback[1]);
-                            this.callback = null;
+                            this.callback[0] = null;
+                            this.callback[1] = null;
                         }
                         this.loading = false;
                     }
