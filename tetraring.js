@@ -43,26 +43,33 @@ try {
                 }
             }
             
-            setCallback (func, prm) {
-                try {
-                    var p_prm = prm || null;
-                    if (null === func) {
-                        throw new Error('invalid param');
-                    }
-                    this.callback = new Array(func, p_prm);
-                } catch (e) {
-                    throw new Error(e.stack + '\n');
-                }
-            }
+            //setCallback (func, prm) {
+            //    try {
+            //        var p_prm = prm || null;
+            //        if (null === func) {
+            //            throw new Error('invalid param');
+            //        }
+            //        this.callback = new Array(func, p_prm);
+            //    } catch (e) {
+            //        throw new Error(e.stack + '\n');
+            //    }
+            //}
             
-            load (force) {
+            load (cb_func, force) {
                 try {
+                    /* check busy */
                     if (true === this.loading) {
                         throw new Error('Loader is busy');
                     }
                     this.loading = true;
                     
-                    var p_force = force || false;
+                    /* set callback function */
+                    var _cb_func = cb_func || null;
+                    if (null !== _cb_func) {
+                        this.callback = _cb_func;
+                    }
+                    var p_force  = force   || false;
+                    
                     for (var load_path_idx in this.load_path) {
                         /* check loaded */
                         if (true === this.load_path[load_path_idx][1]) {
@@ -119,6 +126,7 @@ try {
                         /* check callback function */
                         if (null !== this.callback) {
                             this.callback[0](this.callback[1]);
+                            this.callback = null;
                         }
                         this.loading = false;
                     }
