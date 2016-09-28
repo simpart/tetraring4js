@@ -8,7 +8,7 @@
             constructor () {
                 try {
                     this.load_path = new Array();
-                    this.callback  = null;
+                    this.callback  = new Array(null,null);
                     this.load_cnt  = 0;
                     this.loading   = false;
                     this.timeout   = 0;
