@@ -60,7 +60,7 @@
                     this.loading = true;
                     
                     /* set callback function */
-                    if (null !== _cb_func) {
+                    if (null !== cb_func) {
                         this.callback[0] = cb_func;
                         this.callback[1] = cb_prm;
                     }
