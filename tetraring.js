@@ -3,17 +3,14 @@ try {
     if (typeof tetraring === "undefined") {
         var tetraring          = {};
         tetraring.loader    = {};
-        tetraring.base_path = "./";
+        tetraring.base_path = './';
         tetraring.loader.JsLoader = class {
             /**
              * initialize js loader
              *
-             * @param bp : (string) base path
              */
-            constructor (bp) {
+            constructor () {
                 try {
-                    var p_bp = bp || './';
-                    this.base_path = p_bp;
                     this.load_path = new Array();
                     this.callback  = null;
                     this.load_cnt  = 0;
@@ -79,7 +76,7 @@ try {
                         /* load javascript */
                         var own_loader = this;
                         $.getScript(
-                            this.base_path + this.load_path[load_path_idx][0],
+                            tetraring.base_path + this.load_path[load_path_idx][0],
                             function() {
                                 try {
                                     own_loader.loadedElem();
@@ -134,7 +131,7 @@ try {
                 try {
                     for (var load_path_idx in this.load_path) {
                         if (false === this.load_path[load_path_idx][1]) {
-                            throw new Error('timeout load js : ' + this.base_path + this.load_path[load_path_idx][0]);
+                            throw new Error('timeout load js : ' + tetraring.base_path + this.load_path[load_path_idx][0]);
                         }
                     }
                 } catch (e) {
@@ -150,7 +147,7 @@ try {
                     throw new Error('invalid paramter');
                 }
                 $.ajax({
-                    url      : path[p_idx] ,
+                    url      : tetraring.base_path + path[p_idx] ,
                     type     : 'GET'       ,
                     cache    : false       ,
                     dataType : 'script'    ,
@@ -187,7 +184,7 @@ try {
                 css.attr({
                     rel:  'stylesheet',
                     type: 'text/css',
-                    href: path
+                    href: tetraring.base_path + path
                 });
             } catch (e) {
                 throw new Error(e.stack);
@@ -203,7 +200,7 @@ try {
         tetraring.loader.html = function(h_path, h_id) {
             try {
                 $.ajax({
-                    url      : h_path ,
+                    url      : tetraring.base_path + h_path ,
                     type     : 'GET'  ,
                     cache    : false  ,
                     dataType : 'html' ,

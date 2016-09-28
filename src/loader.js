@@ -5,7 +5,7 @@
              * initialize js loader
              *
              */
-            constructor (bp) {
+            constructor () {
                 try {
                     this.load_path = new Array();
                     this.callback  = null;
