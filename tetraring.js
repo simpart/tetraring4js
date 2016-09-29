@@ -145,7 +145,6 @@ try {
                 }
             }
         };
-        tetraring.loader.jsPara   = new tetraring.loader.jsLoader();
         tetraring.loader.jsSerial = function (path, idx) {
             try {
                 var p_idx = idx || 0;
