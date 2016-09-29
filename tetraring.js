@@ -2,8 +2,8 @@
 try {
     if (typeof tetraring === "undefined") {
         var tetraring          = {};
-        tetraring.loader    = {};
-        tetraring.base_path = './';
+        tetraring.loader          = {};
+        tetraring.base_path       = './';
         tetraring.loader.JsLoader = class {
             /**
              * initialize js loader
@@ -42,18 +42,6 @@ try {
                     throw new Error(e.stack + '\n');
                 }
             }
-            
-            //setCallback (func, prm) {
-            //    try {
-            //        var p_prm = prm || null;
-            //        if (null === func) {
-            //            throw new Error('invalid param');
-            //        }
-            //        this.callback = new Array(func, p_prm);
-            //    } catch (e) {
-            //        throw new Error(e.stack + '\n');
-            //    }
-            //}
             
             load (cb_func, cb_prm, force) {
                 try {
@@ -148,7 +136,7 @@ try {
                 }
             }
         };
-        
+        tetraring.loader.jsPara   = new tetraring.loader.jsLoader();
         tetraring.loader.jsSerial = function (path, idx) {
             try {
                 var p_idx = idx || 0;
