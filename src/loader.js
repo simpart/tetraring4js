@@ -7,12 +7,13 @@
              */
             constructor (bp) {
                 try {
-                    this.base_path = bp || null; 
-                    this.load_path = new Array();
-                    this.callback  = new Array(null,null);
-                    this.load_cnt  = 0;
-                    this.loading   = false;
-                    this.timeout   = 0;
+                    this.base_path  = bp || null; 
+                    this.load_path  = new Array();
+                    this.callback   = new Array(null,null);
+                    this.load_cnt   = 0;
+                    this.loading    = false;
+                    this.timeout    = 0;
+                    this.load_intvl = 200;
                 } catch (e) {
                     throw new Error(e.stack + '\n');
                 }
@@ -113,7 +114,19 @@
                             this.load_path[load_path_idx][1] = true;
                         }
                         /* check callback function */
-                        if (null !== this.callback) {
+                        if (null !== this.callback[0]) {
+                            var cb_func = this.callback[0];
+                            var cb_parm = this.callback[1];
+                            setTimeout(
+                                function() {
+                                    try {
+                                        cb_func(cb_parm);
+                                    } catch (e) {
+                                        console.error(e.stack);
+                                    }
+                                },
+                                this.load_intvl
+                            );
                             this.callback[0](this.callback[1]);
                             this.callback[0] = null;
                             this.callback[1] = null;
