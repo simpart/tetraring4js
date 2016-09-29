@@ -9,8 +9,9 @@ try {
              * initialize js loader
              *
              */
-            constructor () {
+            constructor (bp) {
                 try {
+                    this.base_path = bp || null; 
                     this.load_path = new Array();
                     this.callback  = new Array(null,null);
                     this.load_cnt  = 0;
@@ -70,8 +71,12 @@ try {
                         
                         /* load javascript */
                         var own_loader = this;
+                        var base_path  = this.base_path;
+                        if (null === base_path) {
+                            base_path = tetraring.base_path;
+                        }
                         $.getScript(
-                            tetraring.base_path + this.load_path[load_path_idx][0],
+                            base_path + this.load_path[load_path_idx][0],
                             function() {
                                 try {
                                     own_loader.loadedElem();
@@ -126,9 +131,13 @@ try {
             
             chkLoad() {
                 try {
+                    var base_path  = this.base_path;
+                    if (null === base_path) {
+                        base_path = tetraring.base_path;
+                    }
                     for (var load_path_idx in this.load_path) {
                         if (false === this.load_path[load_path_idx][1]) {
-                            throw new Error('timeout load js : ' + tetraring.base_path + this.load_path[load_path_idx][0]);
+                            throw new Error('timeout load js : ' + base_path + this.load_path[load_path_idx][0]);
                         }
                     }
                 } catch (e) {
@@ -143,8 +152,12 @@ try {
                 if ((null === path) || (0 === path.length)) {
                     throw new Error('invalid paramter');
                 }
+                var base_path  = this.base_path;
+                if (null === base_path) {
+                    base_path = tetraring.base_path;
+                }
                 $.ajax({
-                    url      : tetraring.base_path + path[p_idx] ,
+                    url      : base_path + path[p_idx] ,
                     type     : 'GET'       ,
                     cache    : false       ,
                     dataType : 'script'    ,
@@ -176,12 +189,16 @@ try {
          */
         tetraring.loader.css = function(path) {
             try {
+                var base_path  = this.base_path;
+                if (null === base_path) {
+                    base_path = tetraring.base_path;
+                }
                 $('head').append('<link>');
                 css = $('head').children(':last');
                 css.attr({
                     rel:  'stylesheet',
                     type: 'text/css',
-                    href: tetraring.base_path + path
+                    href: base_path + path
                 });
             } catch (e) {
                 throw new Error(e.stack);
@@ -196,8 +213,12 @@ try {
          */
         tetraring.loader.html = function(h_path, h_id) {
             try {
+                var base_path  = this.base_path;
+                if (null === base_path) {
+                    base_path = tetraring.base_path;
+                }
                 $.ajax({
-                    url      : tetraring.base_path + h_path ,
+                    url      : base_path + h_path ,
                     type     : 'GET'  ,
                     cache    : false  ,
                     dataType : 'html' ,
