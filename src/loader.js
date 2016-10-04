@@ -144,7 +144,7 @@
                 }
             }
         };
-        tetraring.loader.jsSeri = class {
+        tetraring.loader.JsSeri = class {
             /**
              * initialize js loader
              *
