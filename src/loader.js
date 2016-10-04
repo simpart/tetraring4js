@@ -174,7 +174,7 @@
                         }
                     }
                     /* add load target path */
-                    this.load_path.push(new Array(path, false));
+                    this.load_path.push(path);
                 } catch (e) {
                     throw new Error(e.stack + '\n');
                 }
