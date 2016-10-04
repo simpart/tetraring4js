@@ -127,7 +127,6 @@
                                 },
                                 this.load_intvl
                             );
-                            this.callback[0](this.callback[1]);
                             this.callback[0] = null;
                             this.callback[1] = null;
                         }
