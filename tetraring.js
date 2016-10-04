@@ -186,6 +186,7 @@ try {
             
             load (force) {
                 try {
+                    /* check stock */
                     this.loadElm();
                 } catch (e) {
                     throw new Error(e.stack);
@@ -194,7 +195,8 @@ try {
             
             loadElm (idx) {
                 try {
-                    var _idx = idx || 0;
+                    var _idx    = idx || 0;
+                    var own_obj = this;
                     $.ajax({
                         url      : this.base_path + this.load_path[_idx] ,
                         type     : 'GET'       ,
@@ -204,7 +206,7 @@ try {
                     })
                     .done(function(jqXHR, textStatus, errorThrown) {
                         try {
-                            if (_idx < (this.load_path.length-1)) {
+                            if (_idx < (own_obj.load_path.length-1)) {
                                 this.jsSeri(_idx+1);
                             }
                         } catch (e) {
