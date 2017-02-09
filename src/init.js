@@ -1,5 +1,5 @@
 
-ttrg.ini.addLoadEvt = function (fnc) {
+ttrg.init.addLoadEvt = function (fnc) {
     try {
         if ((null === fnc) || ('function' !== (typeof fnc))) {
             throw new Error('invalid parameter');

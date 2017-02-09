@@ -1,4 +1,4 @@
-ttrg.ldr.JsPara = class {
+ttrg.load.JsPara = class {
     /**
      * initialize js loader
      *
@@ -147,7 +147,7 @@ ttrg.ldr.JsPara = class {
     }
 };
 
-ttrg.ldr.JsSeri = class {
+ttrg.load.JsSeri = class {
     /**
      * initialize js loader
      *
@@ -227,7 +227,7 @@ ttrg.ldr.JsSeri = class {
  *
  * @param path to target css
  */
-ttrg.ldr.css = function(path) {
+ttrg.load.css = function(path) {
     try {
         $('head').append('<link>');
         css = $('head').children(':last');
@@ -247,7 +247,7 @@ ttrg.ldr.css = function(path) {
  * @param hpath : (string) path to html file
  * @param h_id : (string) insert the destination 'id' attribute of html tag
  */
-ttrg.ldr.html = function(h_path, h_id) {
+ttrg.load.html = function(h_path, h_id) {
     try {
         $.ajax({
             url      :  h_path ,

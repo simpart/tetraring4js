@@ -1,4 +1,4 @@
-ttrg.ary.Keyval = class {
+ttrg.arry.Keyval = class {
     constructor (dat) {
         try {
             if (null === dat) {

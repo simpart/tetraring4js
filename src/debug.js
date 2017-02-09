@@ -1,5 +1,5 @@
 
-ttrg.dbg.dumpObj = function(obj) {
+ttrg.debg.dumpObj = function(obj) {
     try {
         var ret_str = "";
         for (var i in obj) {

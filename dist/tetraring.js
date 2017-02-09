@@ -77,7 +77,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-ttrg.ary.Keyval = function () {
+ttrg.arry.Keyval = function () {
     function _class(dat) {
         _classCallCheck(this, _class);
 
@@ -152,7 +152,7 @@ ttrg.ary.Keyval = function () {
 "use strict";
 
 
-ttrg.dbg.dumpObj = function (obj) {
+ttrg.debg.dumpObj = function (obj) {
     try {
         var ret_str = "";
         for (var i in obj) {
@@ -172,7 +172,7 @@ ttrg.dbg.dumpObj = function (obj) {
 "use strict";
 
 
-ttrg.ini.addLoadEvt = function (fnc) {
+ttrg.init.addLoadEvt = function (fnc) {
     try {
         if (null === fnc || 'function' !== typeof fnc) {
             throw new Error('invalid parameter');
@@ -202,7 +202,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-ttrg.ldr.JsPara = function () {
+ttrg.load.JsPara = function () {
     /**
      * initialize js loader
      *
@@ -352,7 +352,7 @@ ttrg.ldr.JsPara = function () {
     return _class;
 }();
 
-ttrg.ldr.JsSeri = function () {
+ttrg.load.JsSeri = function () {
     /**
      * initialize js loader
      *
@@ -438,7 +438,7 @@ ttrg.ldr.JsSeri = function () {
  *
  * @param path to target css
  */
-ttrg.ldr.css = function (path) {
+ttrg.load.css = function (path) {
     try {
         $('head').append('<link>');
         css = $('head').children(':last');
@@ -458,7 +458,7 @@ ttrg.ldr.css = function (path) {
  * @param hpath : (string) path to html file
  * @param h_id : (string) insert the destination 'id' attribute of html tag
  */
-ttrg.ldr.html = function (h_path, h_id) {
+ttrg.load.html = function (h_path, h_id) {
     try {
         $.ajax({
             url: h_path,
