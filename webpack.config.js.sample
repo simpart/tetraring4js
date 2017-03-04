@@ -1,7 +1,7 @@
 module.exports = {
     entry: __dirname + '/src/entry.js',
     output: {
-        path: __dirname + '/dist',
+        path: __dirname ,
         filename: 'tetraring.js'
     },
     module: {

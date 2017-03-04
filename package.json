@@ -1,8 +1,8 @@
 {
   "name": "tetraring4js",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
-  "main": "./dist/tetraring.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
