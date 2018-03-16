@@ -1,3 +1,4 @@
+require('expose-loader?$!jquery');
 require('expose-loader?ttrg!./src/namesp.js');
 require('./src/loader.js');
 require('./src/rest.js');
